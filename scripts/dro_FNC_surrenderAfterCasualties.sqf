@@ -54,22 +54,14 @@ dro_FNC_SurrenderAfterCasualties = {
 dro_FNC_SurrenderUnit = {
     params ["_unit","_group","_countUnits","_surrenderPercentage","_unSurrenderDelay"];
 
-    [_unit, {
-        params ["_unit"];
-        _unit setCaptive true;
-        [_unit, true] call ACE_captives_fnc_setSurrendered;
-    }] remoteExec ["call", _x];
+    [_unit, true] remoteExecCall ["ACE_captives_fnc_setSurrendered", _x];
 
     [{
         params ["_unit","_group","_countUnits","_surrenderPercentage","_unSurrenderDelay"];
 
         if ((alive _unit) && (!(_unit getVariable ["ace_captives_isHandcuffed", false]))) then {
 
-            [_unit, {
-                params ["_unit"];
-                _unit setCaptive false;
-                [_unit, false] call ACE_captives_fnc_setSurrendered;
-            }] remoteExec ["call", _x];
+            [_unit, false] remoteExecCall ["ACE_captives_fnc_setSurrendered", _x];
 
             if (_unit == leader _group) then {
                 [_group,_surrenderPercentage, _unSurrenderDelay] call dro_FNC_SurrenderAfterCasualties;
